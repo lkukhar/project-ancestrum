@@ -1,8 +1,9 @@
+use iced::{Application, Settings};
+use crate::ui::AncestrumApp;
+
 mod models;
 mod storage;
 mod ui;
-
-use ui::AncestrumApp;
 
 fn main() -> iced::Result {
     AncestrumApp::run(Settings::default())

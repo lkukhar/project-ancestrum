@@ -1,9 +1,9 @@
 use iced::{
-    widget::{button, column, container, row, text, text_input, Column},
-    Alignment, Element, Length, Sandbox, Settings,
+    widget::{button, column, container, row, text, text_input},
+    Alignment, Element, Length, Sandbox
 };
-use crate::models::{FamilyTree, Person, Relationship};
 use petgraph::graph::NodeIndex;
+use crate::models::{FamilyTree, Person};
 
 #[derive(Debug, Clone)]
 pub enum Message {
@@ -108,32 +108,26 @@ impl AncestrumApp {
 
     fn view_person_card(&self, person_index: NodeIndex) -> Element<Message> {
         if let Some(person) = self.tree.get_person(person_index) {
-            let mut content = column![
-                text(format!("Name: {}", person.name)).size(20),
+            column![
+                text(format!("Name: {}", person.name)),
+                text(format!("Birth Date: {:?}", person.birth_date)),
+                text(format!("Death Date: {:?}", person.death_date)),
                 text(format!("Gender: {:?}", person.gender)),
-            ];
-
-            if let Some(birth_date) = person.birth_date {
-                content = content.push(text(format!("Birth Date: {}", birth_date)));
-            }
-            if let Some(death_date) = person.death_date {
-                content = content.push(text(format!("Death Date: {}", death_date)));
-            }
-
-            content = content.push(text(format!("Notes: {}", person.notes)));
-
-            // Add relationship buttons
-            content = content.push(text("Relationships:").size(16));
-            for (related_index, relationship) in self.tree.get_relationships(person_index) {
-                if let Some(related_person) = self.tree.get_person(related_index) {
-                    content = content.push(
-                        button(format!("{} ({:?})", related_person.name, relationship))
-                            .on_press(Message::SelectPerson(related_index)),
-                    );
-                }
-            }
-
-            content.spacing(10).into()
+                text(format!("Notes: {}", person.notes)),
+                text("Relationships:"),
+                column(
+                    self.tree
+                        .get_relationships(person.id)
+                        .iter()
+                        .map(|(related_person, relationship)| {
+                            button(text(format!("{} ({:?})", related_person.name, relationship)))
+                                .on_press(Message::SelectPerson(person_index))
+                                .into()
+                        })
+                        .collect::<Vec<Element<Message>>>()
+                )
+            ]
+            .into()
         } else {
             text("Person not found").into()
         }

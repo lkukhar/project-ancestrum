@@ -1,7 +1,8 @@
-use serde::{Deserialize, Serialize};
+use petgraph::graph::{DiGraph, NodeIndex};
+use petgraph::visit::EdgeRef;
+use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 use chrono::NaiveDate;
-use petgraph::graph::{DiGraph, NodeIndex};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Person {
@@ -22,7 +23,9 @@ pub enum Gender {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FamilyTree {
+    #[serde(skip)]
     graph: DiGraph<Person, Relationship>,
+    #[serde(skip)]
     root: Option<NodeIndex>,
 }
 
@@ -36,32 +39,37 @@ pub enum Relationship {
 
 impl FamilyTree {
     pub fn new() -> Self {
-        FamilyTree {
+        Self {
             graph: DiGraph::new(),
             root: None,
         }
     }
 
     pub fn add_person(&mut self, person: Person) -> NodeIndex {
-        let node_index = self.graph.add_node(person);
+        let index = self.graph.add_node(person);
         if self.root.is_none() {
-            self.root = Some(node_index);
+            self.root = Some(index);
         }
-        node_index
+        index
     }
 
     pub fn add_relationship(&mut self, from: NodeIndex, to: NodeIndex, relationship: Relationship) {
         self.graph.add_edge(from, to, relationship);
     }
 
-    pub fn get_person(&self, node_index: NodeIndex) -> Option<&Person> {
-        self.graph.node_weight(node_index)
+    pub fn get_person(&self, index: NodeIndex) -> Option<&Person> {
+        self.graph.node_weight(index)
     }
 
-    pub fn get_relationships(&self, node_index: NodeIndex) -> Vec<(NodeIndex, &Relationship)> {
-        self.graph
-            .edges(node_index)
-            .map(|edge| (edge.target(), edge.weight()))
+    pub fn get_relationships(&self, person_id: Uuid) -> Vec<(&Person, &Relationship)> {
+        let node_index = match self.graph.node_indices()
+            .find(|&i| self.graph[i].id == person_id) {
+            Some(index) => index,
+            None => return Vec::new(),
+        };
+        
+        self.graph.edges(node_index)
+            .map(|edge| (self.graph.node_weight(edge.target()).unwrap(), edge.weight()))
             .collect()
     }
 } 
