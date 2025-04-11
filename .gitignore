@@ -1,0 +1,35 @@
+# Node (Vue)
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+
+# Tauri output
+/src-tauri/target/
+src-tauri/.cargo/
+src-tauri/Cargo.lock
+
+# Tauri build artifacts
+/src-tauri/bundled/
+
+# Rust build
+**/*.rs.bk
+**/*.rmeta
+
+# OS/system junk
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs
+*.log
+
+# Optional: backup or temp files
+*.tmp
+*.swp
+*.bak
