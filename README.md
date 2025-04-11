@@ -8,30 +8,6 @@ A desktop application for managing family trees, built with Vue 3 and Tauri.
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable version)
 - [Tauri CLI](https://tauri.app/v1/guides/getting-started/prerequisites)
 
-## Project Structure
-
-```
-project-ancestrum/
-├── frontend/                        # Vue 3 frontend
-│   ├── assets/                      # Static assets
-│   ├── components/                  # Vue components
-│   ├── composables/                 # Vue composables
-│   ├── data/                        # Data management
-│   ├── views/                       # Page views
-│   ├── tests/                       # Vitest-based tests
-│   ├── App.vue                      # Root component
-│   └── main.ts                      # Entry point
-├── backend/                         # Rust backend
-│   ├── commands.rs                  # Command definitions
-│   ├── models.rs                    # Data models
-│   ├── storage.rs                   # Data storage
-│   ├── utils.rs                     # Utility functions
-│   └── lib.rs                       # Library entry point
-└── src-tauri/                       # Tauri configuration
-    ├── src/                         # Tauri source
-    ├── tauri.conf.json              # Tauri config
-    └── Cargo.toml                   # Rust dependencies
-```
 
 ## Setup
 
