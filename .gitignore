@@ -1,104 +1,20 @@
-# Node (Vue)
-node_modules/
-dist/
-.vite/
-.env
-.env.*
-.env.local
-.env.development
-.env.test
-.env.production
-.DS_Store
-dist-ssr
-*.local
-
-# Tauri output
-/src-tauri/target/
-src-tauri/.cargo/
-src-tauri/Cargo.lock
-src-tauri/target/
-src-tauri/bundled/
-src-tauri/dist/
-
-# Rust build
+# Rust
+/target/
 **/*.rs.bk
-**/*.rmeta
-**/*.rlib
-**/*.pdb
-**/*.ilk
-**/*.exp
-**/*.lib
-**/*.dll
-**/*.so
-**/*.dylib
-**/*.a
-**/*.o
-**/*.obj
+Cargo.lock
 
-# OS/system junk
-.DS_Store
-Thumbs.db
-desktop.ini
-$RECYCLE.BIN/
-*.swp
-*.swo
-*~
-
-# IDE/editor settings
+# IDE
 .vscode/
 .idea/
 *.code-workspace
 *.sublime-project
 *.sublime-workspace
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
 
 # Logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Testing
-coverage/
-.nyc_output/
-
-# Build
-dist/
-build/
-out/
-.next/
-.nuxt/
-.cache/
-.temp/
-
-# Optional: backup or temp files
-*.tmp
-*.swp
-*.bak
-*.backup
-*.orig
-*.rej
-*.swo
-*~
-
-# Environment
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Misc
-.cache/
-.temp/
-.tmp/
-.temp/
-*.pid
-*.seed
-*.pid.lock
