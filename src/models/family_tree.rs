@@ -19,6 +19,10 @@ impl FamilyTree {
         }
     }
 
+    pub fn get_root(&self) -> Option<&Person> {
+        self.root.and_then(|index| self.graph.node_weight(index))
+    }
+
     pub fn add_person(&mut self, person: Person) -> NodeIndex {
         let index = self.graph.add_node(person);
         if self.root.is_none() {

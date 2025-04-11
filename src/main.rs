@@ -1,4 +1,4 @@
-use iced::{Sandbox, Settings};
+use iced::{Settings, Application};
 use crate::ui::ancestrum_app::AncestrumApp;
 
 mod models;

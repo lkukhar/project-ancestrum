@@ -1,2 +1,2 @@
 pub mod ancestrum_app;
-pub mod message; 
+pub mod message;
