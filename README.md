@@ -83,7 +83,7 @@ A modern desktop application for visualizing and managing family trees, built wi
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/ancestrum.git
-   cd ancestrum
+   cd project-ancestrum
    ```
 
 2. Run in development mode:
