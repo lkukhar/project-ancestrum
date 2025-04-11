@@ -2,7 +2,7 @@ use std::fs;
 use std::path::PathBuf;
 use directories::ProjectDirs;
 use serde_json;
-use crate::models::FamilyTree;
+use crate::models::family_tree::FamilyTree;
 
 pub fn get_data_dir() -> Option<PathBuf> {
     ProjectDirs::from("com", "ancestrum", "project-ancestrum")

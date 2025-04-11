@@ -1,25 +1,7 @@
 use petgraph::graph::{DiGraph, NodeIndex};
 use petgraph::visit::EdgeRef;
 use serde::{Serialize, Deserialize};
-use uuid::Uuid;
-use chrono::NaiveDate;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Person {
-    pub id: Uuid,
-    pub name: String,
-    pub birth_date: Option<NaiveDate>,
-    pub death_date: Option<NaiveDate>,
-    pub gender: Gender,
-    pub notes: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Gender {
-    Male,
-    Female,
-    Other,
-}
+use crate::models::{person::Person, relationship::Relationship};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FamilyTree {
@@ -27,14 +9,6 @@ pub struct FamilyTree {
     graph: DiGraph<Person, Relationship>,
     #[serde(skip)]
     root: Option<NodeIndex>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Relationship {
-    Parent,
-    Child,
-    Sibling,
-    Spouse,
 }
 
 impl FamilyTree {
@@ -61,7 +35,7 @@ impl FamilyTree {
         self.graph.node_weight(index)
     }
 
-    pub fn get_relationships(&self, person_id: Uuid) -> Vec<(&Person, &Relationship)> {
+    pub fn get_relationships(&self, person_id: uuid::Uuid) -> Vec<(&Person, &Relationship)> {
         let node_index = match self.graph.node_indices()
             .find(|&i| self.graph[i].id == person_id) {
             Some(index) => index,

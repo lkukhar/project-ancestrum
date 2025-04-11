@@ -3,16 +3,13 @@ use iced::{
     Alignment, Element, Length, Sandbox
 };
 use petgraph::graph::NodeIndex;
-use crate::models::{FamilyTree, Person};
-
-#[derive(Debug, Clone)]
-pub enum Message {
-    AddPerson,
-    Save,
-    NameChanged(String),
-    SelectPerson(NodeIndex),
-    // TODO: Add more messages for other interactions
-}
+use crate::models::{
+    family_tree::FamilyTree,
+    person::Person,
+    gender::Gender
+};
+use crate::ui::message::Message;
+use uuid;
 
 pub struct AncestrumApp {
     tree: FamilyTree,
@@ -34,7 +31,7 @@ impl Sandbox for AncestrumApp {
                 name: String::new(),
                 birth_date: None,
                 death_date: None,
-                gender: crate::models::Gender::Other,
+                gender: Gender::Other,
                 notes: String::new(),
             },
         }

@@ -1,5 +1,5 @@
-use iced::{Application, Settings};
-use crate::ui::AncestrumApp;
+use iced::{Sandbox, Settings};
+use crate::ui::ancestrum_app::AncestrumApp;
 
 mod models;
 mod storage;
