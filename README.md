@@ -1,122 +1,57 @@
 # Ancestrum - Family Tree Visualizer
 
-A modern family tree visualization application built with Rust and Vue 3.
-
-## Project Structure
-
-```
-project-ancestrum/
-├── backend/           # Rust backend
-│   ├── src/          # Rust source code
-│   └── Cargo.toml    # Rust dependencies
-│
-├── frontend/         # Vue frontend
-│   ├── src/          # Vue source code
-│   ├── package.json  # Node dependencies
-│   └── vite.config.ts # Build configuration
-```
-
-## Development Setup
-
-### Backend (Rust)
-
-1. Navigate to the backend directory:
-```bash
-cd backend
-```
-
-2. Build and run the backend server:
-```bash
-cargo run
-```
-
-The backend server will run on http://localhost:8000
-
-### Frontend (Vue 3)
-
-1. Navigate to the frontend directory:
-```bash
-cd frontend
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-The frontend will be available at http://localhost:3000
+A modern, cross-platform family tree visualization application built with Rust, Tauri, and Vue.js.
 
 ## Features
 
-- Family tree visualization
+- Create and manage family trees
 - Add, edit, and delete family members
-- Save and load family trees
+- Visualize family relationships
+- Store family data locally
+- Cross-platform desktop application
 - Modern, responsive UI
-- Cross-platform support
 
-## Technology Stack
-
-- Backend: Rust with Warp web framework
-- Frontend: Vue 3 with TypeScript
-- Build Tools: Vite, Cargo
-- State Management: Pinia
-- Routing: Vue Router
 
 ## Prerequisites
 
-### All Platforms
-- Rust (latest stable version)
-- Node.js (v16 or later)
-- npm or yarn
+- [Node.js](https://nodejs.org/) (v16 or later)
+- [Rust](https://www.rust-lang.org/tools/install) (latest stable)
+- [Git](https://git-scm.com/downloads)
 
-### Linux
-- `libwebkit2gtk-4.0-dev`
-- `build-essential`
-- `curl`
-- `wget`
-- `libssl-dev`
-- `libgtk-3-dev`
-- `libayatana-appindicator3-dev`
-- `librsvg2-dev`
+### Platform-Specific Requirements
 
-### macOS
+#### Windows
+- Microsoft Visual Studio C++ Build Tools
+- WebView2
+
+```bash
+winget install Microsoft.VisualStudio.BuildTools
+# or download from https://visualstudio.microsoft.com/visual-cpp-build-tools/
+```
+
+#### macOS
 - Xcode Command Line Tools
-- `libiconv`
 
-## Installation
-
-1. Install Tauri CLI:
-```bash
-cargo install tauri-cli
-```
-
-2. Install platform-specific dependencies:
-
-### Linux (Ubuntu/Debian)
-```bash
-sudo apt update
-sudo apt install libwebkit2gtk-4.0-dev \
-    build-essential \
-    curl \
-    wget \
-    libssl-dev \
-    libgtk-3-dev \
-    libayatana-appindicator3-dev \
-    librsvg2-dev
-```
-
-### macOS
 ```bash
 xcode-select --install
-brew install libiconv
 ```
 
-## Development
+#### Linux
+- Essential build tools and WebKit2GTK
+
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
+
+# Fedora
+sudo dnf install webkit2gtk4.0-devel openssl-devel curl wget libappindicator-gtk3-devel librsvg2-devel
+
+# Arch
+sudo pacman -S webkit2gtk base-devel curl wget openssl gtk3 libappindicator-gtk3 librsvg
+```
+
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -124,40 +59,85 @@ git clone https://github.com/yourusername/project-ancestrum.git
 cd project-ancestrum
 ```
 
-2. Install dependencies:
+2. Install frontend dependencies:
 ```bash
+cd src-frontend
 npm install
 ```
 
-3. Start development server:
+3. Install Rust dependencies:
 ```bash
-cargo tauri dev
+cd ../src-backend
+cargo build
 ```
 
-## Building
+## Development
 
-To build the application for your platform:
-
+1. Start the frontend development server:
 ```bash
-cargo tauri build
+cd src-frontend
+npm run dev
 ```
 
-This will create platform-specific installers in the `src-tauri/target/release` directory.
+2. In a separate terminal, start the backend:
+```bash
+cd src-backend
+cargo run
+```
 
-## Supported Platforms
+3. For Tauri development:
+```bash
+cd src-frontend
+npm run tauri dev
+```
 
-- Windows (.msi)
-- macOS (.app, .dmg)
-- Linux (.deb)
+## Building for Production
 
-## Data Storage
+### Windows
+```bash
+cd src-frontend
+npm run tauri build
+```
+The installer will be available in `src-tauri/target/release/bundle/`
 
-The application stores data in platform-specific locations:
+### macOS
+```bash
+cd src-frontend
+npm run tauri build
+```
+The `.app` bundle will be in `src-tauri/target/release/bundle/macos/`
 
-- Windows: `%APPDATA%\com.ancestrum\project-ancestrum`
-- macOS: `~/Library/Application Support/com.ancestrum/project-ancestrum`
-- Linux: `~/.local/share/com.ancestrum/project-ancestrum`
+### Linux
+```bash
+cd src-frontend
+npm run tauri build
+```
+Various packages (deb, AppImage) will be in `src-tauri/target/release/bundle/`
+
+## Testing
+
+```bash
+# Frontend tests
+cd src-frontend
+npm run test
+
+# Backend tests
+cd src-backend
+cargo test
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, please open an issue in the GitHub repository.
