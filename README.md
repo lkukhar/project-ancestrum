@@ -1,136 +1,162 @@
 # Ancestrum - Family Tree Visualizer
 
-A modern desktop application for visualizing and managing family trees, built with Rust and iced.
+A modern family tree visualization application built with Rust and Vue 3.
+
+## Project Structure
+
+```
+project-ancestrum/
+├── backend/           # Rust backend
+│   ├── src/          # Rust source code
+│   └── Cargo.toml    # Rust dependencies
+│
+├── frontend/         # Vue frontend
+│   ├── src/          # Vue source code
+│   ├── package.json  # Node dependencies
+│   └── vite.config.ts # Build configuration
+```
+
+## Development Setup
+
+### Backend (Rust)
+
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
+
+2. Build and run the backend server:
+```bash
+cargo run
+```
+
+The backend server will run on http://localhost:8000
+
+### Frontend (Vue 3)
+
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The frontend will be available at http://localhost:3000
 
 ## Features
 
-- Add, update, and delete ancestors
-- Visualize family relationships
-- Save and load family tree data
-- Cross-platform support (Windows, macOS, Linux)
+- Family tree visualization
+- Add, edit, and delete family members
+- Save and load family trees
+- Modern, responsive UI
+- Cross-platform support
+
+## Technology Stack
+
+- Backend: Rust with Warp web framework
+- Frontend: Vue 3 with TypeScript
+- Build Tools: Vite, Cargo
+- State Management: Pinia
+- Routing: Vue Router
 
 ## Prerequisites
 
-### Windows
-1. Install Rust:
-   ```powershell
-   winget install Rustlang.Rust.MSVC
-   ```
-   or download from https://rustup.rs/
-
-2. Install Visual Studio Build Tools:
-   - Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
-   - During installation, select:
-     - "Desktop development with C++"
-     - "Windows 10 SDK"
-     - "MSVC v143 - VS 2022 C++ x64/x86 build tools"
-
-3. Set up environment variables:
-   ```powershell
-   $env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.xx.xxxxx\bin\Hostx64\x64"
-   ```
-   (Replace 14.xx.xxxxx with your installed version)
-
-### macOS
-1. Install Rust:
-   ```bash
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   ```
-
-2. Install Xcode Command Line Tools:
-   ```bash
-   xcode-select --install
-   ```
-
-3. Install Homebrew (if not already installed):
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
-
-4. Install system dependencies:
-   ```bash
-   brew install pkg-config
-   ```
+### All Platforms
+- Rust (latest stable version)
+- Node.js (v16 or later)
+- npm or yarn
 
 ### Linux
-1. Install Rust:
-   ```bash
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   ```
+- `libwebkit2gtk-4.0-dev`
+- `build-essential`
+- `curl`
+- `wget`
+- `libssl-dev`
+- `libgtk-3-dev`
+- `libayatana-appindicator3-dev`
+- `librsvg2-dev`
 
-2. Install system dependencies:
+### macOS
+- Xcode Command Line Tools
+- `libiconv`
 
-   Ubuntu/Debian:
-   ```bash
-   sudo apt update
-   sudo apt install build-essential pkg-config libx11-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-util0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-x11-dev libxcb-cursor-dev
-   ```
+## Installation
 
-   Fedora:
-   ```bash
-   sudo dnf install gcc-c++ pkg-config libX11-devel libxcb-devel libxcb-shm0-devel libxcb-xfixes0-devel libxcb-randr0-devel libxcb-composite0-devel libxcb-xkb-devel libxcb-icccm4-devel libxcb-image0-devel libxcb-keysyms1-devel libxcb-util0-devel libxcb-xinerama0-devel libxcb-xkb-devel libxkbcommon-x11-devel libxcb-cursor-devel
-   ```
+1. Install Tauri CLI:
+```bash
+cargo install tauri-cli
+```
 
-   Arch Linux:
-   ```bash
-   sudo pacman -S base-devel pkg-config libx11 libxcb xcb-util xcb-util-image xcb-util-keysyms xcb-util-wm
-   ```
+2. Install platform-specific dependencies:
 
-## Building and Running
+### Linux (Ubuntu/Debian)
+```bash
+sudo apt update
+sudo apt install libwebkit2gtk-4.0-dev \
+    build-essential \
+    curl \
+    wget \
+    libssl-dev \
+    libgtk-3-dev \
+    libayatana-appindicator3-dev \
+    librsvg2-dev
+```
 
-### Development
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/ancestrum.git
-   cd project-ancestrum
-   ```
-
-2. Run in development mode:
-   ```bash
-   cargo run
-   ```
-
-### Production
-
-1. Build the release version:
-   ```bash
-   cargo build --release
-   ```
-
-2. The executable will be created at:
-   - Windows: `target/release/ancestrum.exe`
-   - macOS/Linux: `target/release/ancestrum`
-
-3. Run the executable:
-   - Windows: Double-click `ancestrum.exe` or run from command line
-   - macOS: Open Terminal and run `./target/release/ancestrum`
-   - Linux: Open Terminal and run `./target/release/ancestrum`
+### macOS
+```bash
+xcode-select --install
+brew install libiconv
+```
 
 ## Development
 
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/project-ancestrum.git
+cd project-ancestrum
+```
 
-### Adding New Features
-1. Create a new branch for your feature
-2. Implement the changes
-3. Run tests and ensure everything works
-4. Submit a pull request
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Troubleshooting
+3. Start development server:
+```bash
+cargo tauri dev
+```
 
-### Common Issues
+## Building
 
-#### Windows
-- If you get linker errors, ensure Visual Studio Build Tools are installed correctly
-- If you get "link.exe not found" error, check your PATH environment variable
+To build the application for your platform:
 
-#### macOS
-- If you get "framework not found" errors, ensure Xcode Command Line Tools are installed
-- If you get "pkg-config not found", install it via Homebrew
+```bash
+cargo tauri build
+```
 
-#### Linux
-- If you get "X11/Xlib.h not found", install the required development packages
-- If you get "pkg-config not found", install the pkg-config package
+This will create platform-specific installers in the `src-tauri/target/release` directory.
+
+## Supported Platforms
+
+- Windows (.msi)
+- macOS (.app, .dmg)
+- Linux (.deb)
+
+## Data Storage
+
+The application stores data in platform-specific locations:
+
+- Windows: `%APPDATA%\com.ancestrum\project-ancestrum`
+- macOS: `~/Library/Application Support/com.ancestrum/project-ancestrum`
+- Linux: `~/.local/share/com.ancestrum/project-ancestrum`
 
 ## License
 
