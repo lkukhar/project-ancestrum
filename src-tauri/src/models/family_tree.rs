@@ -2,6 +2,8 @@ use petgraph::graph::{DiGraph, NodeIndex};
 use std::collections::HashMap;
 use super::{Person, Relationship};
 use serde::{Serialize, Deserialize};
+use std::fs;
+use std::path::Path;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct FamilyTree {
@@ -17,6 +19,33 @@ impl FamilyTree {
             graph: DiGraph::new(),
             id_to_index: HashMap::new(),
         }
+    }
+
+    pub fn save_to_file(&self, path: &Path) -> Result<(), String> {
+        // Create a serializable version of the tree
+        let serializable_tree = SerializableFamilyTree {
+            persons: self.graph.node_weights().cloned().collect(),
+            relationships: self.graph.edge_indices()
+                .map(|edge| {
+                    let (source, target) = self.graph.edge_endpoints(edge).unwrap();
+                    let source_id = self.id_to_index.iter()
+                        .find(|(_, &idx)| idx == source)
+                        .map(|(id, _)| id.clone())
+                        .unwrap();
+                    let target_id = self.id_to_index.iter()
+                        .find(|(_, &idx)| idx == target)
+                        .map(|(id, _)| id.clone())
+                        .unwrap();
+                    (source_id, target_id, self.graph[edge].clone())
+                })
+                .collect(),
+        };
+
+        let serialized = serde_json::to_string_pretty(&serializable_tree)
+            .map_err(|e| format!("Failed to serialize family tree: {}", e))?;
+        
+        fs::write(path, serialized)
+            .map_err(|e| format!("Failed to write to file: {}", e))
     }
 
     pub fn add_person(&mut self, person: Person) -> Result<Person, String> {
@@ -58,4 +87,10 @@ impl FamilyTree {
         self.graph.add_edge(*from_index, *to_index, relationship);
         Ok(())
     }
+}
+
+#[derive(Serialize, Deserialize)]
+struct SerializableFamilyTree {
+    persons: Vec<Person>,
+    relationships: Vec<(String, String, Relationship)>,
 } 
