@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::{Serialize, Deserialize};
 use super::Gender;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -8,5 +8,5 @@ pub struct Person {
     pub birth_date: Option<String>,
     pub death_date: Option<String>,
     pub gender: Gender,
-    pub notes: String,
+    pub notes: Option<String>,
 } 

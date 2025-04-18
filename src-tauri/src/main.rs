@@ -6,12 +6,13 @@
 mod api;
 mod models;
 
-use src::api::handlers::*;
-use src::models::{FamilyTree, Person, Gender, Relationship};
+use api::handlers::*;
+use models::FamilyTree;
 use std::sync::Mutex;
+use tauri::State;
 
-struct AppState {
-    family_tree: Mutex<FamilyTree>,
+pub struct AppState {
+    pub family_tree: Mutex<FamilyTree>,
 }
 
 fn main() {

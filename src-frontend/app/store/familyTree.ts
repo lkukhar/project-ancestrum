@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Person } from '@/services/api';
+import type { Person } from '@/types';
 import { api } from '@/services/api';
 
 export const useFamilyTreeStore = defineStore('familyTree', () => {
@@ -17,6 +17,7 @@ export const useFamilyTreeStore = defineStore('familyTree', () => {
       tree.value = familyTree.persons;
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to load family tree';
+      console.error('Error loading tree:', err);
     } finally {
       isLoading.value = false;
     }
@@ -28,8 +29,10 @@ export const useFamilyTreeStore = defineStore('familyTree', () => {
     try {
       const newPerson = await api.addPerson(person);
       tree.value.push(newPerson);
+      return newPerson;
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to add person';
+      console.error('Error adding person:', err);
       throw err;
     } finally {
       isLoading.value = false;
@@ -48,8 +51,10 @@ export const useFamilyTreeStore = defineStore('familyTree', () => {
       if (selectedPerson.value?.id === id) {
         selectedPerson.value = updatedPerson;
       }
+      return updatedPerson;
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to update person';
+      console.error('Error updating person:', err);
       throw err;
     } finally {
       isLoading.value = false;
@@ -67,6 +72,7 @@ export const useFamilyTreeStore = defineStore('familyTree', () => {
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to delete person';
+      console.error('Error deleting person:', err);
       throw err;
     } finally {
       isLoading.value = false;

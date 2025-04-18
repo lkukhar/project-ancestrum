@@ -2,35 +2,24 @@
 name = "ancestrum"
 version = "0.1.0"
 description = "A family tree application"
-authors = ["you"]
-license = ""
-repository = ""
+authors = ["Leo Kukhar"]
+license = "https://github.com/lkukhar/project-ancestrum/blob/main/LICENSE"
+repository = "https://github.com/lkukhar/project-ancestrum"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[lib]
-name = "ancestrum_lib"
-path = "lib.rs"
-crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2.0.0-beta", features = [] }
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-log = "0.4"
 tauri = { version = "2.0.0-beta", features = [] }
-tauri-plugin-log = "2.0.0-rc"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 petgraph = "0.6"
-uuid = { version = "1.7", features = ["v4", "serde"] }
-chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
 thiserror = "1.0"
-
-[[bin]]
-name = "ancestrum"
-path = "main.rs"
+tauri-plugin-fs = "2.0.0-beta.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
