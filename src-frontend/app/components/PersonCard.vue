@@ -1,112 +1,66 @@
 <template>
-  <div v-if="person" class="person-card">
-    <div class="person-header">
-      <h2>{{ person.name }}</h2>
-      <div class="person-actions">
-        <button @click="$emit('edit')" class="btn-edit">Edit</button>
-        <button @click="$emit('delete')" class="btn-delete">Delete</button>
-      </div>
-    </div>
-    
+  <div class="person-card">
+    <h2>{{ person.name }}</h2>
     <div class="person-details">
-      <div class="detail">
-        <label>Gender:</label>
-        <span>{{ person.gender }}</span>
-      </div>
-      
-      <div class="detail">
-        <label>Birth Date:</label>
-        <span>{{ person.birth_date || 'Unknown' }}</span>
-      </div>
-      
-      <div class="detail">
-        <label>Death Date:</label>
-        <span>{{ person.death_date || 'Unknown' }}</span>
-      </div>
-      
-      <div class="detail notes">
-        <label>Notes:</label>
-        <p>{{ person.notes }}</p>
-      </div>
+      <p v-if="person.birthDate">Born: {{ person.birthDate }}</p>
+      <p v-if="person.deathDate">Died: {{ person.deathDate }}</p>
+      <p>Gender: {{ person.gender }}</p>
+      <p v-if="person.notes">{{ person.notes }}</p>
+    </div>
+    <div class="person-actions">
+      <button @click="$emit('edit')" class="btn-edit">Edit</button>
+      <button @click="$emit('delete')" class="btn-delete">Delete</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-import type { Person } from '@/services/api';
+import type { Person } from '@/services/api'
 
 defineProps<{
-  person: Person;
-}>();
+  person: Person
+}>()
 
 defineEmits<{
-  (e: 'edit'): void;
-  (e: 'delete'): void;
-}>();
+  (e: 'edit'): void
+  (e: 'delete'): void
+}>()
 </script>
 
 <style scoped>
 .person-card {
-  background: white;
+  border: 1px solid #ccc;
   border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 1rem;
+  background-color: white;
 }
 
-.person-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.person-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
+.person-details {
+  margin: 1rem 0;
 }
 
 .person-actions {
   display: flex;
   gap: 0.5rem;
+  margin-top: 1rem;
 }
 
-button {
+.btn-edit, .btn-delete {
   padding: 0.5rem 1rem;
-  border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 500;
 }
 
 .btn-edit {
-  background: #4CAF50;
+  background-color: #4CAF50;
   color: white;
+  border: none;
 }
 
 .btn-delete {
-  background: #f44336;
+  background-color: #f44336;
   color: white;
-}
-
-.person-details {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.detail {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.detail label {
-  font-weight: 500;
-  min-width: 100px;
-}
-
-.notes p {
-  margin: 0;
-  white-space: pre-wrap;
+  border: none;
 }
 </style> 

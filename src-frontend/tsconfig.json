@@ -1,13 +1,25 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "app/**/*", "app/**/*.vue"],
-  "exclude": ["app/**/__tests__/*"],
   "compilerOptions": {
-    "composite": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/*"]
-    },
-    "types": ["node"]
-  }
+      "@/*": ["app/*"],
+      "store/*": ["app/store/*"],
+      "services/*": ["app/services/*"],
+      "components/*": ["app/components/*"]
+    }
+  },
+  "include": ["app/**/*.ts", "app/**/*.d.ts", "app/**/*.tsx", "app/**/*.vue"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 } 

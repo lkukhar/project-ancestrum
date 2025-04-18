@@ -37,24 +37,24 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useFamilyTreeStore } from 'store/familyTree';
+import { useFamilyTreeStore } from '@/store/familyTree';
 import PersonCard from '@/components/PersonCard.vue';
 import PersonForm from '@/components/PersonForm.vue';
-import type { Person } from 'services/api';
+import type { Person } from '@/services/api';
 
 const store = useFamilyTreeStore();
 const showAddForm = ref(false);
 const showEditForm = ref(false);
 
-const { tree, selectedPerson, isLoading, error } = store;
+const { tree, selectedPerson, isLoading, error, loadTree, addPerson, updatePerson, deletePerson, selectPerson } = store;
 
 onMounted(() => {
-  store.loadTree();
+  loadTree();
 });
 
 async function handleAddPerson(person: Omit<Person, 'id'>) {
   try {
-    await store.addPerson(person);
+    await addPerson(person);
     showAddForm.value = false;
   } catch (err) {
     console.error('Failed to add person:', err);
@@ -65,7 +65,7 @@ async function handleUpdatePerson(person: Omit<Person, 'id'>) {
   if (!selectedPerson) return;
   
   try {
-    await store.updatePerson(selectedPerson.id, person);
+    await updatePerson(selectedPerson.id, person);
     showEditForm.value = false;
   } catch (err) {
     console.error('Failed to update person:', err);
@@ -77,8 +77,8 @@ async function handleDelete() {
   
   if (confirm('Are you sure you want to delete this person?')) {
     try {
-      await store.deletePerson(selectedPerson.id);
-      store.selectPerson(null);
+      await deletePerson(selectedPerson.id);
+      selectPerson(null);
     } catch (err) {
       console.error('Failed to delete person:', err);
     }

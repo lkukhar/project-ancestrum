@@ -1,137 +1,178 @@
 # Ancestrum - Family Tree Visualizer
 
-A modern, cross-platform family tree visualization application built with Rust, Tauri, and Vue.js.
+A modern desktop application for visualizing and managing family trees, built with Tauri, Vue 3, and Rust.
+
+## Project Structure
+
+```
+project-ancestrum/
+├── src-tauri/              # Tauri backend (Rust)
+│   ├── api/                # API endpoints
+│   ├── capabilities/       # Tauri capabilities
+│   ├── icons/              # Application icons
+│   ├── build.rs            # Build script
+│   ├── Cargo.toml          # Rust dependencies
+│   ├── lib.rs              # Library entry point
+│   ├── main.rs             # Application entry point
+│   └── tauri.conf.json     # Tauri configuration
+├── src-frontend/           # Frontend code (Vue 3)
+│   ├── app/                # Vue components
+│   ├── vite.config.ts      # Vite configuration
+│   ├── tsconfig.json       # TypeScript configuration
+│   ├── tailwind.config.js  # Tailwind CSS configuration
+│   └── postcss.config.js   # PostCSS configuration
+├── package.json            # Project dependencies and scripts
+└── LICENSE                 # MIT License
+```
 
 ## Features
 
-- Create and manage family trees
-- Add, edit, and delete family members
+- Add, update, and delete family members
 - Visualize family relationships
-- Store family data locally
-- Cross-platform desktop application
+- Save and load family tree data
 - Modern, responsive UI
-
+- Cross-platform support (Windows, macOS, Linux)
 
 ## Prerequisites
 
+### Common Requirements
 - [Node.js](https://nodejs.org/) (v16 or later)
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable)
-- [Git](https://git-scm.com/downloads)
+- [Tauri CLI](https://tauri.app/v1/guides/getting-started/prerequisites)
 
 ### Platform-Specific Requirements
 
 #### Windows
-- Microsoft Visual Studio C++ Build Tools
-- WebView2
-
-```bash
-winget install Microsoft.VisualStudio.BuildTools
-# or download from https://visualstudio.microsoft.com/visual-cpp-build-tools/
-```
+- [Microsoft Visual Studio C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+- [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) (usually installed with Windows 11)
 
 #### macOS
-- Xcode Command Line Tools
-
-```bash
-xcode-select --install
-```
+- Xcode Command Line Tools:
+  ```bash
+  xcode-select --install
+  ```
+- [Homebrew](https://brew.sh/) (recommended for package management)
 
 #### Linux
-- Essential build tools and WebKit2GTK
+- System dependencies:
+  ```bash
+  # Debian/Ubuntu
+  sudo apt update
+  sudo apt install -y \
+    build-essential \
+    curl \
+    wget \
+    libssl-dev \
+    libgtk-3-dev \
+    libwebkit2gtk-4.0-dev \
+    libayatana-appindicator3-dev \
+    librsvg2-dev
 
+  # Fedora
+  sudo dnf install -y \
+    gcc \
+    openssl-devel \
+    gtk3-devel \
+    webkit2gtk4.0-devel \
+    libappindicator \
+    librsvg2-devel
+
+  # Arch Linux
+  sudo pacman -S --needed \
+    base-devel \
+    curl \
+    wget \
+    openssl \
+    gtk3 \
+    webkit2gtk \
+    libappindicator \
+    librsvg
+  ```
+
+## Development Setup
+
+1. Install dependencies:
 ```bash
-# Ubuntu/Debian
-sudo apt update
-sudo apt install libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
-
-# Fedora
-sudo dnf install webkit2gtk4.0-devel openssl-devel curl wget libappindicator-gtk3-devel librsvg2-devel
-
-# Arch
-sudo pacman -S webkit2gtk base-devel curl wget openssl gtk3 libappindicator-gtk3 librsvg
-```
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/project-ancestrum.git
-cd project-ancestrum
-```
-
-2. Install frontend dependencies:
-```bash
-cd src-frontend
 npm install
 ```
 
-3. Install Rust dependencies:
+2. Start the development server:
 ```bash
-cd ../src-backend
-cargo build
+npm run tauri:dev
 ```
 
-## Development
+### Platform-Specific Development Notes
 
-1. Start the frontend development server:
-```bash
-cd src-frontend
-npm run dev
-```
+#### Windows
+- Ensure you have the latest version of WebView2 installed
+- If you encounter build errors, try running the following in an elevated PowerShell:
+  ```powershell
+  npm install --global --production windows-build-tools
+  ```
 
-2. In a separate terminal, start the backend:
-```bash
-cd src-backend
-cargo run
-```
+#### macOS
+- If you encounter permission issues with the camera or file system, you may need to:
+  1. Open System Preferences > Security & Privacy
+  2. Add the development build to the allowed applications
+- For Apple Silicon (M1/M2) Macs, ensure you have Rosetta 2 installed:
+  ```bash
+  softwareupdate --install-rosetta
+  ```
 
-3. For Tauri development:
-```bash
-cd src-frontend
-npm run tauri dev
-```
+#### Linux
+- If you encounter issues with the window not showing up, ensure your system has the required GTK and WebKit dependencies
+- For Wayland users, you might need to set the following environment variable:
+  ```bash
+  export WAYLAND_DISPLAY=wayland-0
+  ```
 
 ## Building for Production
 
-### Windows
 ```bash
-cd src-frontend
-npm run tauri build
+npm run tauri:build
 ```
-The installer will be available in `src-tauri/target/release/bundle/`
 
-### macOS
-```bash
-cd src-frontend
-npm run tauri build
-```
-The `.app` bundle will be in `src-tauri/target/release/bundle/macos/`
+### Platform-Specific Build Notes
 
-### Linux
-```bash
-cd src-frontend
-npm run tauri build
-```
-Various packages (deb, AppImage) will be in `src-tauri/target/release/bundle/`
+#### Windows
+- The build will create an installer (.msi) in the `src-tauri/target/release` directory
+- Signing the application is recommended for distribution
 
-## Testing
+#### macOS
+- The build will create a .app bundle and .dmg installer
+- For distribution, you'll need an Apple Developer certificate for signing
 
-```bash
-# Frontend tests
-cd src-frontend
-npm run test
+#### Linux
+- The build will create a .deb package (Debian/Ubuntu) or .AppImage
+- For .deb packages, ensure you have the required dependencies installed
 
-# Backend tests
-cd src-backend
-cargo test
-```
+## Project Structure Details
+
+### Frontend (`src-frontend/`)
+- Built with Vue 3 and TypeScript
+- Uses Vite as the build tool
+- Styled with Tailwind CSS
+- State management with Pinia
+
+### Backend (`src-tauri/`)
+- Rust-based backend using Tauri
+- Graph-based data structure for family relationships
+- Persistent storage using JSON files
+- Thread-safe operations with Mutex
+
+## Available Scripts
+
+- `npm run dev` - Start the frontend development server
+- `npm run build` - Build the frontend for production
+- `npm run tauri:dev` - Start the Tauri development server
+- `npm run tauri:build` - Build the Tauri application for production
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
 ## License

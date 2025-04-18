@@ -1,117 +1,114 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="person-form">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input
-        id="name"
-        v-model="formData.name"
-        type="text"
-        required
-        placeholder="Enter name"
-      />
-    </div>
+  <div class="person-form">
+    <h2>{{ person ? 'Edit Person' : 'Add Person' }}</h2>
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          v-model="formData.name"
+          type="text"
+          required
+          placeholder="Enter name"
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="gender">Gender</label>
-      <select id="gender" v-model="formData.gender" required>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" v-model="formData.gender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label for="birthDate">Birth Date</label>
-      <input
-        id="birthDate"
-        v-model="formData.birth_date"
-        type="date"
-        placeholder="YYYY-MM-DD"
-      />
-    </div>
+      <div class="form-group">
+        <label for="birthDate">Birth Date</label>
+        <input
+          id="birthDate"
+          v-model="formData.birthDate"
+          type="date"
+          placeholder="Birth date"
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="deathDate">Death Date</label>
-      <input
-        id="deathDate"
-        v-model="formData.death_date"
-        type="date"
-        placeholder="YYYY-MM-DD"
-      />
-    </div>
+      <div class="form-group">
+        <label for="deathDate">Death Date</label>
+        <input
+          id="deathDate"
+          v-model="formData.deathDate"
+          type="date"
+          placeholder="Death date"
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="notes">Notes</label>
-      <textarea
-        id="notes"
-        v-model="formData.notes"
-        rows="4"
-        placeholder="Enter notes"
-      ></textarea>
-    </div>
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea
+          id="notes"
+          v-model="formData.notes"
+          placeholder="Additional notes"
+        ></textarea>
+      </div>
 
-    <div class="form-actions">
-      <button type="submit" class="btn-submit">
-        {{ isEditing ? 'Update' : 'Add' }} Person
-      </button>
-      <button type="button" class="btn-cancel" @click="$emit('cancel')">
-        Cancel
-      </button>
-    </div>
-  </form>
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">
+          {{ person ? 'Update' : 'Add' }}
+        </button>
+        <button type="button" @click="$emit('cancel')" class="btn-cancel">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import type { Person } from '@/services/api';
+import { ref, watch } from 'vue'
+import type { Person } from '@/services/api'
 
 const props = defineProps<{
-  person?: Person;
-}>();
+  person?: Person
+}>()
 
 const emit = defineEmits<{
-  (e: 'submit', person: Omit<Person, 'id'>): void;
-  (e: 'cancel'): void;
-}>();
-
-const isEditing = ref(!!props.person);
+  (e: 'submit', person: Omit<Person, 'id'>): void
+  (e: 'cancel'): void
+}>()
 
 const formData = ref<Omit<Person, 'id'>>({
   name: '',
-  gender: 'Male',
-  birth_date: undefined,
-  death_date: undefined,
-  notes: '',
-});
+  gender: 'Other',
+  birthDate: undefined,
+  deathDate: undefined,
+  notes: ''
+})
 
-watch(
-  () => props.person,
-  (newPerson) => {
-    if (newPerson) {
-      formData.value = {
-        name: newPerson.name,
-        gender: newPerson.gender,
-        birth_date: newPerson.birth_date,
-        death_date: newPerson.death_date,
-        notes: newPerson.notes,
-      };
+watch(() => props.person, (newPerson) => {
+  if (newPerson) {
+    formData.value = {
+      name: newPerson.name,
+      gender: newPerson.gender,
+      birthDate: newPerson.birthDate,
+      deathDate: newPerson.deathDate,
+      notes: newPerson.notes
     }
-  },
-  { immediate: true }
-);
+  }
+}, { immediate: true })
 
 function handleSubmit() {
-  emit('submit', formData.value);
+  emit('submit', formData.value)
 }
 </script>
 
 <style scoped>
 .person-form {
   background: white;
+  padding: 2rem;
   border-radius: 8px;
-  padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 1rem;
+  max-width: 500px;
+  margin: 2rem auto;
 }
 
 .form-group {
@@ -129,32 +126,39 @@ function handleSubmit() {
 .form-group textarea {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
 }
 
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
-button {
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-submit,
+.btn-cancel {
   padding: 0.5rem 1rem;
-  border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
 }
 
 .btn-submit {
-  background: #4CAF50;
+  background-color: #4CAF50;
   color: white;
+  border: none;
 }
 
 .btn-cancel {
-  background: #f44336;
+  background-color: #f44336;
   color: white;
+  border: none;
 }
 </style> 
